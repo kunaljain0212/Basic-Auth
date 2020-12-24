@@ -1,5 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 //Importing routes
 const authRoutes = require("./routes/auth");
@@ -8,8 +11,8 @@ const app = express();
 
 //DATABASE CONNECTION
 mongoose.connect(
-  "mongodb+srv://kunal:rakk2622@cluster0.qysx0.mongodb.net/<dbname>?retryWrites=true&w=majority",
-  { useNewUrlParser: true },
+  process.env.DATABASE_URL,
+  { useUnifiedTopology: true, useNewUrlParser: true },
   () => {
     console.log("DATABASE CONNECTED");
   }
