@@ -1,0 +1,25 @@
+{
+  "name": "Basic-Auth",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kunaljain0212/Basic-Auth.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kunaljain0212/Basic-Auth/issues"
+  },
+  "homepage": "https://github.com/kunaljain0212/Basic-Auth#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.11.8",
+    "nodemon": "^2.0.6"
+  }
+}
