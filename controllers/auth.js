@@ -9,9 +9,11 @@ const {
 //Register controller
 exports.register = async (req, res) => {
   const { error } = registrationValidator(req.body);
-
+  console.log("andar");
   if (error) {
-    res.status(400).json(error.details[0].message);
+    res.status(400).json({
+      error: error.details[0].message,
+    });
   } else {
     const salt = await bcrypt.genSalt(10);
     const encry_password = await bcrypt.hash(req.body.password, salt);
@@ -24,14 +26,15 @@ exports.register = async (req, res) => {
     });
     try {
       const savedUser = await user.save();
-      res.status(200).json(savedUser);
+      res.status(200).json({
+        message: "User registered successfully",
+      });
     } catch (err) {
-      res
-        .status(400)
-        .json(
+      res.status(400).json({
+        error:
           "Eiether Email already exists or some serve error occurred: " +
-            err.name
-        );
+          err.name,
+      });
     }
   }
 };
@@ -41,12 +44,14 @@ exports.login = async (req, res) => {
   const { error } = loginValidator(req.body);
 
   if (error) {
-    res.status(400).json(error.details[0].message);
+    res.status(400).json({
+      error: error.details[0].message,
+    });
   } else {
     const userExists = await User.findOne({ email: req.body.email });
     if (!userExists) {
       res.status(400).json({
-        message: "User doesn't exist",
+        error: "User doesn't exist",
       });
     } else {
       const validatePassword = await bcrypt.compare(
@@ -55,7 +60,7 @@ exports.login = async (req, res) => {
       );
       if (!validatePassword) {
         res.status(400).json({
-          message: "Invalid password",
+          error: "Invalid password",
         });
       } else {
         const token = jwt.sign({ _id: userExists._id }, process.env.SECRET);
@@ -73,7 +78,7 @@ exports.isAuthenticated = (req, res, next) => {
   const token = req.header("Authorization");
   if (!token) {
     res.status(403).json({
-      message: "ACCESS DENIED",
+      error: "ACCESS DENIED",
     });
   }
   try {
@@ -82,7 +87,7 @@ exports.isAuthenticated = (req, res, next) => {
     next();
   } catch (err) {
     res.status(403).json({
-      message: "ACCESS DENIED/TOKEN NOT VERIFIED",
+      error: "ACCESS DENIED/TOKEN NOT VERIFIED",
     });
   }
 };

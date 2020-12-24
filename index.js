@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
 const dotenv = require("dotenv");
 
 //Importing routes
@@ -21,12 +22,13 @@ mongoose.connect(
 
 //Middlewares
 app.use(express.json());
+app.use(cors());
 
 //Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 
 //Server
-app.listen(3000, () => {
-  console.log("SERVER RUNNING ON 3000");
+app.listen(5000, () => {
+  console.log("SERVER RUNNING ON 5000");
 });

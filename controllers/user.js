@@ -4,7 +4,7 @@ const { passwordValidator } = require("../config/validation");
 
 //Get profile controller
 exports.getProfile = async (req, res) => {
-  const user = await User.findOne({ id: req.user_id });
+  const user = await User.findOne({ _id: req.user_id });
   res.status(200).json({
     profile: "This is your profile",
     user: {
@@ -16,8 +16,7 @@ exports.getProfile = async (req, res) => {
 
 //Change password controller
 exports.changePassword = async (req, res) => {
-  const user = await User.findOne({ id: req.user_id });
-  console.log(user);
+  const user = await User.findOne({ _id: req.user });
   const validatePassword = await bcrypt.compare(
     req.body.oldPassword,
     user.password
@@ -30,7 +29,7 @@ exports.changePassword = async (req, res) => {
     const { error } = passwordValidator(req.body);
     if (error) {
       res.status(400).json({
-        message: "Invalid new password",
+        error: "Invalid new password",
       });
     } else {
       const salt = user.salt;
@@ -46,7 +45,7 @@ exports.changePassword = async (req, res) => {
               error: "DATABASE ERROR: " + error,
             });
           }
-          res.json({ message: "Password successfully changed" });
+          res.status(200).json({ message: "Password successfully changed" });
         }
       );
     }
