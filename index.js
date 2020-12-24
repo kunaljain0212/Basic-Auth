@@ -4,7 +4,9 @@ const dotenv = require("dotenv");
 
 //Importing routes
 const authRoutes = require("./routes/auth");
+const userRoutes = require("./routes/user");
 
+//Intialization and configuration
 const app = express();
 dotenv.config();
 
@@ -22,6 +24,7 @@ app.use(express.json());
 
 //Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/user", userRoutes);
 
 //Server
 app.listen(3000, () => {
