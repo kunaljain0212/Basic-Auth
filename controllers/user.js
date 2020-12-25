@@ -4,7 +4,7 @@ const { passwordValidator } = require("../config/validation");
 
 //Get profile controller
 exports.getProfile = async (req, res) => {
-  const user = await User.findOne({ _id: req.user_id });
+  const user = await User.findOne({ _id: req.user });
   res.status(200).json({
     profile: "This is your profile",
     user: {
